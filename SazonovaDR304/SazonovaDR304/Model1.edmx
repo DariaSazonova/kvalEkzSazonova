@@ -1,0 +1,422 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище kvalEkzSazonova304Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Marks">
+          <Key>
+            <PropertyRef Name="MarkNum" />
+          </Key>
+          <Property Name="MarkNum" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdStudent" Type="int" Nullable="false" />
+          <Property Name="Mark" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Subject" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReportingType">
+          <Key>
+            <PropertyRef Name="Num" />
+          </Key>
+          <Property Name="Num" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Students">
+          <Key>
+            <PropertyRef Name="IdStudent" />
+          </Key>
+          <Property Name="IdStudent" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Patronymic" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Gender" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Age" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Subjects">
+          <Key>
+            <PropertyRef Name="idSubject" />
+          </Key>
+          <Property Name="idSubject" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubjectName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Hours" Type="int" Nullable="false" />
+          <Property Name="ReportingType" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_Marks_Students">
+          <End Role="Students" Type="Self.Students" Multiplicity="1" />
+          <End Role="Marks" Type="Self.Marks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="IdStudent" />
+            </Principal>
+            <Dependent Role="Marks">
+              <PropertyRef Name="IdStudent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Marks_Subjects">
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="1" />
+          <End Role="Marks" Type="Self.Marks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="idSubject" />
+            </Principal>
+            <Dependent Role="Marks">
+              <PropertyRef Name="Subject" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Subjects_ReportingType">
+          <End Role="ReportingType" Type="Self.ReportingType" Multiplicity="1" />
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportingType">
+              <PropertyRef Name="Num" />
+            </Principal>
+            <Dependent Role="Subjects">
+              <PropertyRef Name="ReportingType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="viewMarks" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="viewSearchMarks" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="seachString" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="viewSearchStudents" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="seachString" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="viewSearcSubjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="seachString" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="viewSubjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="Хранилище kvalEkzSazonova304ModelContainer">
+          <EntitySet Name="Marks" EntityType="Self.Marks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportingType" EntityType="Self.ReportingType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subjects" EntityType="Self.Subjects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Marks_Students" Association="Self.FK_Marks_Students">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="Marks" EntitySet="Marks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Marks_Subjects" Association="Self.FK_Marks_Subjects">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="Marks" EntitySet="Marks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subjects_ReportingType" Association="Self.FK_Subjects_ReportingType">
+            <End Role="ReportingType" EntitySet="ReportingType" />
+            <End Role="Subjects" EntitySet="Subjects" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="kvalEkzSazonova304Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Marks">
+          <Key>
+            <PropertyRef Name="MarkNum" />
+          </Key>
+          <Property Name="MarkNum" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdStudent" Type="Int32" Nullable="false" />
+          <Property Name="Mark" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Subject" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Students" Relationship="Self.FK_Marks_Students" FromRole="Marks" ToRole="Students" />
+          <NavigationProperty Name="Subjects" Relationship="Self.FK_Marks_Subjects" FromRole="Marks" ToRole="Subjects" />
+        </EntityType>
+        <EntityType Name="ReportingType">
+          <Key>
+            <PropertyRef Name="Num" />
+          </Key>
+          <Property Name="Num" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Subjects" Relationship="Self.FK_Subjects_ReportingType" FromRole="ReportingType" ToRole="Subjects" />
+        </EntityType>
+        <EntityType Name="Students">
+          <Key>
+            <PropertyRef Name="IdStudent" />
+          </Key>
+          <Property Name="IdStudent" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Age" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Marks" Relationship="Self.FK_Marks_Students" FromRole="Students" ToRole="Marks" />
+        </EntityType>
+        <EntityType Name="Subjects">
+          <Key>
+            <PropertyRef Name="idSubject" />
+          </Key>
+          <Property Name="idSubject" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubjectName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Hours" Type="Int32" Nullable="false" />
+          <Property Name="ReportingType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Marks" Relationship="Self.FK_Marks_Subjects" FromRole="Subjects" ToRole="Marks" />
+          <NavigationProperty Name="ReportingType1" Relationship="Self.FK_Subjects_ReportingType" FromRole="Subjects" ToRole="ReportingType" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_Marks_Students">
+          <End Role="Students" Type="Self.Students" Multiplicity="1" />
+          <End Role="Marks" Type="Self.Marks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="IdStudent" />
+            </Principal>
+            <Dependent Role="Marks">
+              <PropertyRef Name="IdStudent" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Marks_Subjects">
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="1" />
+          <End Role="Marks" Type="Self.Marks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="idSubject" />
+            </Principal>
+            <Dependent Role="Marks">
+              <PropertyRef Name="Subject" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Subjects_ReportingType">
+          <End Role="ReportingType" Type="Self.ReportingType" Multiplicity="1" />
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportingType">
+              <PropertyRef Name="Num" />
+            </Principal>
+            <Dependent Role="Subjects">
+              <PropertyRef Name="ReportingType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="kvalEkzSazonova304Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Marks" EntityType="Self.Marks" />
+          <EntitySet Name="ReportingType" EntityType="Self.ReportingType" />
+          <EntitySet Name="Students" EntityType="Self.Students" />
+          <EntitySet Name="Subjects" EntityType="Self.Subjects" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <AssociationSet Name="FK_Marks_Students" Association="Self.FK_Marks_Students">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="Marks" EntitySet="Marks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Marks_Subjects" Association="Self.FK_Marks_Subjects">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="Marks" EntitySet="Marks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subjects_ReportingType" Association="Self.FK_Subjects_ReportingType">
+            <End Role="ReportingType" EntitySet="ReportingType" />
+            <End Role="Subjects" EntitySet="Subjects" />
+          </AssociationSet>
+          <FunctionImport Name="viewMarks" ReturnType="Collection(kvalEkzSazonova304Model.viewMarks_Result)" />
+          <FunctionImport Name="viewSubjects" ReturnType="Collection(kvalEkzSazonova304Model.viewSubjects_Result)" />
+          <FunctionImport Name="viewSearchStudents" ReturnType="Collection(kvalEkzSazonova304Model.viewSearchStudents_Result)">
+          <Parameter Name="seachString" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="viewSearchMarks" ReturnType="Collection(kvalEkzSazonova304Model.viewSearchMarks_Result)">
+          <Parameter Name="seachString" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="viewSearcSubjects" ReturnType="Collection(kvalEkzSazonova304Model.viewSearcSubjects_Result)">
+          <Parameter Name="seachString" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="viewMarks_Result">
+          <Property Type="String" Name="SubjectName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Surname" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Patronymic" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Mark" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="MarkNum" Nullable="false" />
+          </ComplexType>
+        <ComplexType Name="viewSubjects_Result">
+          <Property Type="String" Name="SubjectName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Hours" Nullable="false" />
+          <Property Type="String" Name="type" Nullable="false" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="viewSearchStudents_Result">
+          <Property Type="Int32" Name="IdStudent" Nullable="false" />
+          <Property Type="String" Name="Surname" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Patronymic" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Gender" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="Age" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="viewSearchMarks_Result">
+          <Property Type="String" Name="SubjectName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Surname" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Patronymic" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Mark" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="viewSearcSubjects_Result">
+          <Property Type="String" Name="SubjectName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Hours" Nullable="false" />
+          <Property Type="String" Name="type" Nullable="false" MaxLength="20" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище kvalEkzSazonova304ModelContainer" CdmEntityContainer="kvalEkzSazonova304Entities">
+          <EntitySetMapping Name="Marks">
+            <EntityTypeMapping TypeName="kvalEkzSazonova304Model.Marks">
+              <MappingFragment StoreEntitySet="Marks">
+                <ScalarProperty Name="MarkNum" ColumnName="MarkNum" />
+                <ScalarProperty Name="IdStudent" ColumnName="IdStudent" />
+                <ScalarProperty Name="Mark" ColumnName="Mark" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReportingType">
+            <EntityTypeMapping TypeName="kvalEkzSazonova304Model.ReportingType">
+              <MappingFragment StoreEntitySet="ReportingType">
+                <ScalarProperty Name="Num" ColumnName="Num" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Students">
+            <EntityTypeMapping TypeName="kvalEkzSazonova304Model.Students">
+              <MappingFragment StoreEntitySet="Students">
+                <ScalarProperty Name="IdStudent" ColumnName="IdStudent" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subjects">
+            <EntityTypeMapping TypeName="kvalEkzSazonova304Model.Subjects">
+              <MappingFragment StoreEntitySet="Subjects">
+                <ScalarProperty Name="idSubject" ColumnName="idSubject" />
+                <ScalarProperty Name="SubjectName" ColumnName="SubjectName" />
+                <ScalarProperty Name="Hours" ColumnName="Hours" />
+                <ScalarProperty Name="ReportingType" ColumnName="ReportingType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="kvalEkzSazonova304Model.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="viewMarks" FunctionName="Хранилище kvalEkzSazonova304Model.viewMarks">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="kvalEkzSazonova304Model.viewMarks_Result">
+                <ScalarProperty Name="SubjectName" ColumnName="SubjectName" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="Mark" ColumnName="Mark" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="MarkNum" ColumnName="MarkNum" />
+                </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="viewSubjects" FunctionName="Хранилище kvalEkzSazonova304Model.viewSubjects">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="kvalEkzSazonova304Model.viewSubjects_Result">
+                <ScalarProperty Name="SubjectName" ColumnName="SubjectName" />
+                <ScalarProperty Name="Hours" ColumnName="Hours" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="viewSearchStudents" FunctionName="Хранилище kvalEkzSazonova304Model.viewSearchStudents">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="kvalEkzSazonova304Model.viewSearchStudents_Result">
+                <ScalarProperty Name="IdStudent" ColumnName="IdStudent" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="viewSearchMarks" FunctionName="Хранилище kvalEkzSazonova304Model.viewSearchMarks">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="kvalEkzSazonova304Model.viewSearchMarks_Result">
+                <ScalarProperty Name="SubjectName" ColumnName="SubjectName" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="Mark" ColumnName="Mark" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="viewSearcSubjects" FunctionName="Хранилище kvalEkzSazonova304Model.viewSearcSubjects">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="kvalEkzSazonova304Model.viewSearcSubjects_Result">
+                <ScalarProperty Name="SubjectName" ColumnName="SubjectName" />
+                <ScalarProperty Name="Hours" ColumnName="Hours" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
